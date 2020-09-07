@@ -41,10 +41,20 @@ public class Reservation {
 
 	}
 
-	public void upDates(Date chekIn, Date chekOut) {
+	public String  upDates(Date chekIn, Date chekOut) {
+		 Date now = new Date ();
+		 if(chekIn.before(now) || chekOut.before(now)) {
+			 return "Error with dates for reservation";
+		 }
+		 
+		  if (!chekOut.after(chekIn)) {
+			 return "Error in date reservation";
+			 
+		 }
+		
 		this.chekIn = chekIn;
 		this.chekOut = chekOut;
-		
+		return null;
 	}
 	
 	@Override 
