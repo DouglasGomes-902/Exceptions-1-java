@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import mondel.execption.DomeinException;
+
 public class Reservation {
 
 	private Integer roomNumber;
@@ -13,7 +15,10 @@ public class Reservation {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-	public Reservation(Integer roomNumber, Date chekIn, Date chekOut) {
+	public Reservation(Integer roomNumber, Date chekIn, Date chekOut)  {
+		 if (!chekOut.after(chekIn)) {
+			 throw new DomeinException ("Error in date reservation"); 
+		 }
 		this.roomNumber = roomNumber;
 		this.chekIn = chekIn;
 		this.chekOut = chekOut;
@@ -41,20 +46,19 @@ public class Reservation {
 
 	}
 
-	public String  upDates(Date chekIn, Date chekOut) {
+	public void  upDates(Date chekIn, Date chekOut) {
 		 Date now = new Date ();
 		 if(chekIn.before(now) || chekOut.before(now)) {
-			 return "Error with dates for reservation";
+			 throw new DomeinException("Error with dates for reservation");
 		 }
 		 
 		  if (!chekOut.after(chekIn)) {
-			 return "Error in date reservation";
-			 
+			 throw new DomeinException ("Error in date reservation"); 
 		 }
 		
 		this.chekIn = chekIn;
 		this.chekOut = chekOut;
-		return null;
+		
 	}
 	
 	@Override 
